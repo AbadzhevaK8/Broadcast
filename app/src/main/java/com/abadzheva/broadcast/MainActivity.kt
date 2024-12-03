@@ -20,7 +20,12 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val intentFilter = IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED)
+        val intentFilter = IntentFilter(Intent.ACTION_BATTERY_LOW)
         registerReceiver(receiver, intentFilter)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(receiver)
     }
 }

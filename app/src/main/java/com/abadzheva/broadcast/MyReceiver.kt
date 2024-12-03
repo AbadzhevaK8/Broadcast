@@ -12,8 +12,8 @@ class MyReceiver : BroadcastReceiver() {
     ) {
         val action = intent?.action
         when (action) {
-            Intent.ACTION_AIRPLANE_MODE_CHANGED -> {
-                Toast.makeText(context, "Airplane mode changed", Toast.LENGTH_SHORT).show()
+            Intent.ACTION_BATTERY_LOW -> {
+                Toast.makeText(context, "Battery low", Toast.LENGTH_SHORT).show()
             }
         }
     }
