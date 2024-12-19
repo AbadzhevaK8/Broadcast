@@ -20,7 +20,11 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val intentFilter = IntentFilter(Intent.ACTION_BATTERY_LOW)
+        val intentFilter =
+            IntentFilter().apply {
+                addAction(Intent.ACTION_BATTERY_LOW)
+                addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED)
+            }
         registerReceiver(receiver, intentFilter)
     }
 
