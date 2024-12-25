@@ -13,9 +13,15 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 
 class MainActivity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
+
+    private val localBroadcastManager by lazy {
+        LocalBroadcastManager.getInstance(this)
+    }
+
     private val receiver =
         object : BroadcastReceiver() {
             override fun onReceive(
@@ -46,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.button).setOnClickListener {
             Intent(MyReceiver.ACTION_CUSTOM_BROADCAST).apply {
                 putExtra(MyReceiver.EXTRA_COUNT, ++count)
-                sendBroadcast(this)
+                localBroadcastManager.sendBroadcast(this)
             }
         }
 
@@ -57,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                 addAction(MyReceiver.ACTION_CUSTOM_BROADCAST)
                 addAction("loaded")
             }
-        registerReceiver(receiver, intentFilter, RECEIVER_EXPORTED)
+        localBroadcastManager.registerReceiver(receiver, intentFilter)
         Intent(this, MyService::class.java).apply {
             startService(this)
         }
@@ -65,6 +71,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        unregisterReceiver(receiver)
+        localBroadcastManager.unregisterReceiver(receiver)
     }
 }

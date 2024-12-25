@@ -3,9 +3,14 @@ package com.abadzheva.broadcast
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlin.concurrent.thread
 
 class MyService : Service() {
+    private val localBroadcastManager by lazy {
+        LocalBroadcastManager.getInstance(this)
+    }
+
     override fun onStartCommand(
         intent: Intent?,
         flags: Int,
@@ -16,7 +21,7 @@ class MyService : Service() {
                 Thread.sleep(1000)
                 Intent("loaded").apply {
                     putExtra("percent", i * 10)
-                    sendBroadcast(this)
+                    localBroadcastManager.sendBroadcast(this)
                 }
             }
         }
